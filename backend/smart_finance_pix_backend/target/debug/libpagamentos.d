@@ -1,0 +1,1 @@
+/home/gabrielsousa/workspace/smart-finance/backend/smart_finance_backend/target/debug/libpagamentos.rlib: /home/gabrielsousa/workspace/smart-finance/backend/smart_finance_backend/crates/pagamentos/src/lib.rs
