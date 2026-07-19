@@ -1,6 +1,0 @@
-[package]
-name = "pagamentos"
-edition.workspace = true
-version.workspace = true
-
-[dependencies]
