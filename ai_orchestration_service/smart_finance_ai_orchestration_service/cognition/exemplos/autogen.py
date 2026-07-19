@@ -1,8 +1,8 @@
 from autogen_agentchat.agents import AssistantAgent
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 
-from cognition.agent import SYSTEM_PROMPT
-from cognition.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+from cognition.exemplos.agent import SYSTEM_PROMPT
+from cognition.exemplos.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
 
 model_client = OpenAIChatCompletionClient(
     model=LLM_MODEL, base_url=LLM_BASE_URL, api_key=LLM_API_KEY,

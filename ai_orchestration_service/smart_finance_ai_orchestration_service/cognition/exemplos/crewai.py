@@ -3,7 +3,7 @@ import asyncio
 from crewai import Agent, Task, Crew, LLM
 from crewai.tools import tool
 
-from cognition.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+from cognition.exemplos.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
 
 llm = LLM(model=f"openai/{LLM_MODEL}", base_url=LLM_BASE_URL, api_key=LLM_API_KEY)
 
@@ -19,7 +19,7 @@ def configure(embedder, vectors, repo) -> None:
 @tool("recuperar_contexto")
 def recuperar(question: str) -> str:
     """Busca contexto financeiro no acervo Smart-Finance."""
-    from cognition.retrieval import retrieve
+    from cognition.exemplos.retrieval import retrieve
     return asyncio.run(retrieve(question, _deps["embedder"], _deps["vectors"], _deps["repo"]))
 
 

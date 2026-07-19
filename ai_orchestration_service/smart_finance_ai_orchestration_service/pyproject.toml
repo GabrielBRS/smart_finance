@@ -14,4 +14,7 @@ dependencies = [
     "langchain-openai>=1.3.4",
     "langgraph>=1.2.8",
     "pymilvus>=2.6.0",
+    "pydantic_settings",
+    "asyncpg",
+    "attrs>=26.1.0",
 ]

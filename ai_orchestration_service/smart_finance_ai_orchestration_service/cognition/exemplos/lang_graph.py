@@ -9,9 +9,9 @@ from typing import TypedDict
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 
-from cognition.agent import SYSTEM_PROMPT
-from cognition.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
-from cognition.ports import EmbeddingPort, VectorStore, DocumentRepository
+from cognition.exemplos.agent import SYSTEM_PROMPT
+from cognition.exemplos.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+from cognition.exemplos.ports import EmbeddingPort, VectorStore, DocumentRepository
 
 llm = ChatOpenAI(model=LLM_MODEL, base_url=LLM_BASE_URL,
                  api_key=LLM_API_KEY, temperature=0.2)

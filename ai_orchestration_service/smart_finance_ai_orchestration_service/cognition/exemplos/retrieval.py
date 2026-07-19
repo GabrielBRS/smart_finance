@@ -4,9 +4,9 @@ from typing import TypedDict
 from langgraph.graph import StateGraph, START, END
 from langchain_openai import ChatOpenAI
 
-from cognition.agent import SYSTEM_PROMPT
-from cognition.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
-from cognition.ports import EmbeddingPort, VectorStore, DocumentRepository
+from cognition.exemplos.agent import SYSTEM_PROMPT
+from cognition.exemplos.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+from cognition.exemplos.ports import EmbeddingPort, VectorStore, DocumentRepository
 
 llm = ChatOpenAI(model=LLM_MODEL, base_url=LLM_BASE_URL, api_key=LLM_API_KEY, temperature=0.2)
 
@@ -53,6 +53,6 @@ def build_graph(embedder, vectors, repo):
 
 
 async def run_langchain(question: str, embedder, vectors, repo) -> str:
-    from cognition.lang_chain import chain
+    from cognition.exemplos.lang_chain import chain
     context = await retrieve(question, embedder, vectors, repo)
     return await chain.ainvoke({"context": context, "question": question})

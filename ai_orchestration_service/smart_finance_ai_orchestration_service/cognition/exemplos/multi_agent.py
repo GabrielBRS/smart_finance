@@ -19,10 +19,10 @@ from typing import TypedDict
 from langchain_openai import ChatOpenAI
 from langgraph.graph import StateGraph, START, END
 
-from cognition.agent import SYSTEM_PROMPT
-from cognition.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
-from cognition.retrieval import retrieve
-from cognition.ports import EmbeddingPort, VectorStore, DocumentRepository
+from cognition.exemplos.agent import SYSTEM_PROMPT
+from cognition.exemplos.config import LLM_MODEL, LLM_BASE_URL, LLM_API_KEY
+from cognition.exemplos.retrieval import retrieve
+from cognition.exemplos.ports import EmbeddingPort, VectorStore, DocumentRepository
 
 # LLM local (on-prem). Mesma convencao do teu lang_graph.py / retrieval.py.
 llm = ChatOpenAI(model=LLM_MODEL, base_url=LLM_BASE_URL,
