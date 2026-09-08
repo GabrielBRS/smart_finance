@@ -1,0 +1,35 @@
+---
+description: How to write Mojo↔Python bridges, conversions, errors, and batching
+globs: src/interop/python/**/*.mojo,src/python/**/*.py
+alwaysApply: false
+---
+
+# Mojo ↔ Python interop
+
+`.py` files are not compiled with Mojo. They load at **runtime** through CPython when a bridge calls `Python.import_module`.
+
+```text
+compile time: structs/traits Mojo em interop/python/*.mojo
+runtime:      CPython carrega src/python/*.py e libs do ecossistema
+```
+
+## Required shape
+
+1. Write the thin `.py` module in `src/python/`.
+2. Write the Mojo abstraction + bridge in `src/interop/python/`.
+3. Import only from the bridge (`PythonBridge.import_local` / `import_module`).
+4. Call functions and classes on the `PythonObject`.
+5. Convert results to Mojo types before returning.
+6. Map Python exceptions to `OrchestratorError`.
+7. Keep the `PythonObject` alive on the Mojo struct (lifetime).
+8. Cross the boundary in coarse batches, never per-token/per-char loops.
+
+```text
+Mojo → uma chamada Python → processa o lote → retorna
+```
+
+Cost of every crossing: Mojo → Python runtime → `PythonObject` → conversions → back to Mojo. Explain that cost when adding a new bridge.
+
+The bridge adds `src` to CPython `sys.path` at **runtime**. Do not set `PYTHONPATH=src` in Pixi activation — Mojo then fails to find `std`.
+
+Point `MOJO_PYTHON_LIBRARY` at this env's `libpython` (see `pixi.toml` and `.vscode/settings.json`). Without it, interop aborts on `Py_Initialize`.

@@ -1,0 +1,50 @@
+---
+description: Mojo is the application core; Python is only an interop escape hatch
+alwaysApply: true
+---
+
+# Mojo-first architecture
+
+```text
+MOJO = linguagem principal do sistema
+PYTHON = escape hatch / interoperabilidade
+```
+
+```text
+Aplicação Mojo → Interop/Bridge → Python → bibliotecas Python
+```
+
+Never invert this. Do not turn the project into Python that calls Mojo.
+
+## Layers
+
+| Layer | Path | Owns | Must not do |
+| --- | --- | --- | --- |
+| Domain | `src/domain/` | types, rules, ports/traits | I/O, Python, vendors |
+| Application | `src/application/` | use cases, graph, agents, RAG flow | HTTP/JSON/gRPC, `Python.import_module` |
+| Bootstrap | `src/bootstrap/` | composition root | business rules |
+| Transport | `src/transport/` | HTTP/gRPC adapters, router, handlers | domain rules |
+| Infrastructure | `src/infrastructure/` | Mojo-native I/O, local adapters, IPC, compute | `PythonObject` |
+| Interop | `src/interop/python/` | bridges/adapters Mojo → Python | business rules |
+| Python | `src/python/` | thin wrappers around Python-only libs | orchestration / domain |
+
+`src/ai_orchestrator/` is legacy Strangler Fig. New Python belongs in `src/python/`.
+
+Python adapters live under `src/python/{agentic,models,training,integrations}` and are reached only through `src/interop/python/*_bridge.mojo`. Do not import Python from `domain/`, `application/`, `bootstrap/`, `transport/`, or `ai_orchestrator/`.
+
+Do **not** put in `src/python/`: HTTP/gRPC servers, Langfuse SDK (use OTEL from Mojo), vLLM (external inference), LiteLLM (external proxy).
+
+## Placement rule
+
+When adding a feature, state the layer and why. Prefer Mojo whenever the work can be done reasonably without a Python-only library (HF, Transformers, ML SDKs, external integrations).
+
+## Boundaries
+
+- Domain and application depend on Mojo abstractions (`Tokenizer`, `LLMProvider`, `VectorStore`), never on `PythonObject`.
+- `Python.import_module`, `PythonObject`, and CPython details live only in `src/interop/python/`.
+- Bridges hide Python so a later native Mojo implementation can replace the bridge without rewriting callers.
+
+```mojo
+var tokenizer = Tokenizer()
+var tokens = tokenizer.encode("Hello Mojo")
+```

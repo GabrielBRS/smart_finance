@@ -1,1 +1,0 @@
-/home/gabrielsousa/workspace/smart-finance/backend/smart_finance_ai_inference_gateway/target/debug/ai_inference_gateway: /home/gabrielsousa/workspace/smart-finance/backend/smart_finance_ai_inference_gateway/src/main.rs
